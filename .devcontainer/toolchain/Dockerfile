@@ -1,5 +1,6 @@
-ARG VARIANT=ubuntu-22.04
-FROM mcr.microsoft.com/vscode/devcontainers/cpp:0-${VARIANT}
+# https://github.com/devcontainers/images/tree/main/src/cpp
+ARG VARIANT=ubuntu-24.04
+FROM mcr.microsoft.com/devcontainers/cpp:${VARIANT}
 
 RUN apt-get update && \
     export DEBIAN_FRONTEND=noninteractive && \
