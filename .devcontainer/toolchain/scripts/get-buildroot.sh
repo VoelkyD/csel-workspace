@@ -5,7 +5,7 @@ set -o pipefail
 set -o nounset
 # set -o xtrace
 
-git clone git://git.buildroot.net/buildroot /buildroot
+git clone https://gitlab.com/buildroot.org/buildroot.git /buildroot
 
 cd /buildroot
 git checkout -b csel 2022.08.3
