@@ -1,0 +1,1 @@
+cmd_/workspace/ex_drivers/ex7/mymodule.ko := /buildroot/output/host/usr/bin/aarch64-buildroot-linux-gnu-ld -r -EL  -maarch64elf -z noexecstack --build-id=sha1  -T scripts/module.lds -o /workspace/ex_drivers/ex7/mymodule.ko /workspace/ex_drivers/ex7/mymodule.o /workspace/ex_drivers/ex7/mymodule.mod.o;  true

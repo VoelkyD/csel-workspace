@@ -1,0 +1,1 @@
+cmd_/workspace/ex_drivers/ex7/Module.symvers := sed 's/\.ko$$/\.o/' /workspace/ex_drivers/ex7/modules.order | scripts/mod/modpost    -o /workspace/ex_drivers/ex7/Module.symvers -e -i Module.symvers   -T -
