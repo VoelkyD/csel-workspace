@@ -28,5 +28,5 @@ src/03_drivers/sample01/main1
 src/03_drivers/sample01/main2
 src/03_drivers/sample01/main3
 
-src/06_optimization/access_log_NASA_Jul95
-src/06_optimization/access_log_NASA_Jul95_samples
+src/06_optimization/ex03/access_log_NASA_Jul95
+src/06_optimization/ex03/access_log_NASA_Jul95_samples

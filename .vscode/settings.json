@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "moduleparam.h": "c"
+        "moduleparam.h": "c",
+        "errno.h": "c",
+        "cerrno": "c",
+        "unistd.h": "c",
+        "timerfd.h": "c",
+        "epoll.h": "c"
     }
 }
