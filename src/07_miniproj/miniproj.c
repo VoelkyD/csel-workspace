@@ -83,7 +83,7 @@ static ssize_t frequency_show(struct device *dev, struct device_attribute *attr,
 static ssize_t frequency_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {
     int val;
-    if (kstrtoint(buf, 10, &val) == 0 && val > 0 && val <= 100)
+    if (kstrtoint(buf, 10, &val) == 0 && val > 0 && val <= 20)
         manual_freq = val;
     return count;
 }
