@@ -1,40 +1,48 @@
-# Nom du compilateur croisé pour user-space
-CROSS_COMPILE := /buildroot/output/host/usr/bin/aarch64-buildroot-linux-gnu-
-CC := $(CROSS_COMPILE)gcc
-
-# Variables pour le module noyau
-CPU := arm64
-KDIR := /buildroot/output/build/linux-5.15.148/
-MODPATH := /buildroot/output/target
-PWD := $(shell pwd)
-
-# Nom du module
-obj-m := miniproj.o
-miniproj-objs := miniproj.o
-
-# Fichiers user-space
-USER_SRCS := fanctl.c daemon_fan.c
-USER_BINS := $(USER_SRCS:.c=.o)
-
-# Partie noyau
+# === Kernel module configuration ===
 ifneq ($(KERNELRELEASE),)
 
-# build module à partir des .o déclarés
+obj-m := miniproj.o
+
+# === User-space build ===
 else
 
-all: modules $(USER_BINS)
+# --- Toolchain & Paths ---
+CPU := arm64
+KDIR := /buildroot/output/build/linux-5.15.148
+TOOLS := /buildroot/output/host/usr/bin/aarch64-buildroot-linux-gnu-
+CROSS := $(TOOLS)gcc
+PWD := $(shell pwd)
+MODPATH := /buildroot/output/target
 
-modules:
-	$(MAKE) -C $(KDIR) M=$(PWD) ARCH=$(CPU) CROSS_COMPILE=$(CROSS_COMPILE) modules
+# --- User-space sources ---
+OLED_SRCS := oled/ssd1306.c
+OLED_OBJS := $(OLED_SRCS:.c=.o)
 
-# compilation fichiers user-space
+# --- Default target ---
+all: miniproj.ko fanctl.o daemon_fan.o
+
+# --- Kernel module build ---
+miniproj.ko:
+	$(MAKE) -C $(KDIR) M=$(PWD) ARCH=$(CPU) CROSS_COMPILE=$(TOOLS) modules
+
+# --- fanctl build ---
+fanctl.o: fanctl.c
+	$(CROSS) -Wall fanctl.c -o fanctl.o
+
+# --- OLED .o compilation ---
 %.o: %.c
-	$(CC) -Wall $< -o $@
+	$(CROSS) -Wall -c $< -o $@
 
+# --- daemon_fan build ---
+daemon_fan.o: daemon_fan.c $(OLED_OBJS)
+	$(CROSS) -Wall daemon_fan.c $(OLED_OBJS) -o daemon_fan.o
+
+# --- Clean ---
 clean:
 	$(MAKE) -C $(KDIR) M=$(PWD) clean
-	rm -f $(USER_BINS)
+	$(RM) *.o *.mod.c *.ko *.symvers *.order fanctl.o daemon_fan.o $(OLED_OBJS)
 
+# --- Install kernel module ---
 install:
 	$(MAKE) -C $(KDIR) M=$(PWD) INSTALL_MOD_PATH=$(MODPATH) modules_install
 
