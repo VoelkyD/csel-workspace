@@ -8,8 +8,8 @@
 
 void usage() {
     printf("Usage:\n");
-    printf("  fanctl mode [auto|manual]\n");
-    printf("  fanctl freq [1-20]\n");
+    printf("  ./fanctl mode [auto|manual]\n");
+    printf("  ./fanctl freq [1-20]\n");
     exit(1);
 }
 
